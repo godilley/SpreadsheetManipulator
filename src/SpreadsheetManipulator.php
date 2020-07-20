@@ -3,9 +3,12 @@
 namespace App;
 
 use App\Excel;
+use App\ContentSite\Geizhals;
 
 class SpreadsheetManipulator
 {
+    private $configManager;
+
     /**
      * SpreadsheetManipulator constructor.
      * @param array $args CLI parameters
@@ -14,7 +17,12 @@ class SpreadsheetManipulator
     {
         $this->validateArgs($args);
 
+        $this->configManager = new ConfigManager();
+        $this->configManager->validateConfig(true);
+
         $this->excel = new Excel($args[1], $args[2]);
+
+        $this->searchSites();
     }
 
     /**
@@ -34,5 +42,10 @@ class SpreadsheetManipulator
         }
 
         return true;
+    }
+
+    public function searchSites()
+    {
+        echo '// TODO';
     }
 }
