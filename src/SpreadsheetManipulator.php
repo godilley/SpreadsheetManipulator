@@ -19,7 +19,6 @@ class SpreadsheetManipulator
 
     /**
      * Validates incoming command parameters.
-     *
      * @param array $args CLI parameters
      *
      * @return bool
