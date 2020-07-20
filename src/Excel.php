@@ -30,8 +30,8 @@ class Excel
         $this->open($input);
     }
 
-    /**
-     * Reads column until
+   /**
+     * Reads column from data array.
      *
      * @param string $column
      *
@@ -39,7 +39,7 @@ class Excel
      */
     public function getColumn(string $column): array
     {
-        $columnPos = $this->alphabetNum($column);
+        $columnPos = $this->alphabetNum($column) - 1;
         $data = $this->sheet->toArray();
 
         return array_map(function ($datum) use ($columnPos) {

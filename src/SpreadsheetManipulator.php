@@ -34,12 +34,23 @@ class SpreadsheetManipulator
         $this->configManager->validateConfig(true);
 
         $this->excel = new Excel($args[1], $args[2]);
-        $this->data = [
-            'input' => $this->excel->getColumn($_ENV['sitesToSearch']),
-            'output' => [],
-        ];
+        $this->data = $this->excelData();
+
+        dump($this->data);
 
         $this->searchSites();
+    }
+
+    public function excelData()
+    {
+        $columnData = $this->excel->getColumn($this->configManager->fetchConfig('inputColumn'));
+        $shifted = array_shift($columnData);
+
+        return [
+            'title' => [$shifted],
+            'input' => [$columnData],
+            'output' => [[]],
+        ];
     }
 
     /**

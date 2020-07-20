@@ -7,9 +7,13 @@ use Dotenv\Exception\ValidationException;
 
 class ConfigManager
 {
-    public const REQUIRED_PARAMS = [self::CONF_SITES_TO_SEARCH];
+    public const REQUIRED_PARAMS = [
+        self::CONF_SITES_TO_SEARCH,
+        self::CONF_INPUT_COLUMN,
+    ];
 
     public const CONF_SITES_TO_SEARCH = 'sitesToSearch';
+    public const CONF_INPUT_COLUMN = 'inputColumn';
 
     /**
      * @var Dotenv
@@ -75,5 +79,7 @@ class ConfigManager
                 return array_filter(explode(',', str_replace(', ', ',', $value)));
                 break;
         }
+
+        return $value;
     }
 }
