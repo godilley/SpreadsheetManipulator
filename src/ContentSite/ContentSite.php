@@ -36,7 +36,7 @@ abstract class ContentSite
     /**
      * @return mixed
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -44,7 +44,7 @@ abstract class ContentSite
     /**
      * @return mixed
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
@@ -52,8 +52,10 @@ abstract class ContentSite
     /**
      * @return mixed
      */
-    public function getSearchUri()
+    public function getSearchUri(): string
     {
         return $this->searchUri;
     }
+
+    abstract public function search($searchStr);
 }

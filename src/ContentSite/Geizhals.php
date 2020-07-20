@@ -14,4 +14,9 @@ class Geizhals extends ContentSite
                 '/?fs=%s&hloc=at'
             );
     }
+
+    public function search($searchStr)
+    {
+        // TODO: Implement search() method.
+    }
 }

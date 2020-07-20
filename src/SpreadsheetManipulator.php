@@ -53,14 +53,23 @@ class SpreadsheetManipulator
         return true;
     }
 
+    /**
+     * // TODO: Load data from spreadsheet and search based on that
+     *
+     * @throws \Exception
+     */
     public function searchSites()
     {
         $sitesToSearch = $this->configManager->fetchConfig(ConfigManager::CONF_SITES_TO_SEARCH);
 
-        foreach ($sitesToSearch as $siteToSearch) {
+        foreach ($sitesToSearch as $key => $siteToSearch) {
             $class = "App\ContentSite\\$siteToSearch";
-            dump($class);
-            exit;
+
+            if (!class_exists($class)) {
+                throw new \Exception('Invalid site to search: ' . $siteToSearch);
+            }
+
+            $sitesToSearch[$key] = new $class();
         }
 
         dump($sitesToSearch);
