@@ -17,6 +17,11 @@ class SpreadsheetManipulator
     private $excel;
 
     /**
+     * @var array
+     */
+    private $data;
+
+    /**
      * SpreadsheetManipulator constructor.
      * @param array $args CLI parameters
      * @throws \Exception
@@ -29,6 +34,10 @@ class SpreadsheetManipulator
         $this->configManager->validateConfig(true);
 
         $this->excel = new Excel($args[1], $args[2]);
+        $this->data = [
+            'input' => $this->excel->getColumn($_ENV['sitesToSearch']),
+            'output' => [],
+        ];
 
         $this->searchSites();
     }
