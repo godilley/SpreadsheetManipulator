@@ -34,8 +34,10 @@ class Excel
      * Reads column until
      *
      * @param string $column
+     *
+     * @return array
      */
-    public function getColumn(string $column)
+    public function getColumn(string $column): array
     {
         $columnPos = $this->alphabetNum($column);
         $data = $this->sheet->toArray();
@@ -50,7 +52,7 @@ class Excel
      *
      * @param String $cell
      *
-     * @return Cell $cell
+     * @return Cell
      */
     public function getCell(string $cell): Cell
     {
@@ -75,7 +77,7 @@ class Excel
      *
      * @return int
      */
-    protected function alphabetNum(string $char)
+    protected function alphabetNum(string $char): int
     {
         return ord(strtoupper($char)) - ord('A') + 1;
     }
