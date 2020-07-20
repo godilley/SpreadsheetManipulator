@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App;
 
@@ -15,24 +15,44 @@ class Excel
     protected $spreadsheet;
 
     /**
+     * @var $sheet
+     */
+    protected $sheet;
+
+    /**
      * Excel constructor.
-     * @param String $input 
-     * @param String $output 
+     *
+     * @param String $input
+     * @param String $output
      */
     public function __construct(string $input, string $output)
     {
         $this->open($input);
+    }
 
-        $cell = $this->getCell('A1');
-        var_dump($cell->getValue());
+    /**
+     * Reads column until
+     *
+     * @param string $column
+     */
+    public function getColumn(string $column)
+    {
+        $columnPos = $this->alphabetNum($column);
+        $data = $this->sheet->toArray();
+
+        return array_map(function ($datum) use ($columnPos) {
+            return $datum[$columnPos];
+        }, $data);
     }
 
     /**
      * Returns specified cell.
      *
      * @param String $cell
+     *
+     * @return Cell $cell
      */
-    protected function getCell(string $cell): Cell 
+    public function getCell(string $cell): Cell
     {
         return $this->sheet->getCell($cell);
     }
@@ -46,5 +66,17 @@ class Excel
     {
         $this->spreadsheet = IOFactory::load($path);
         $this->sheet = $this->spreadsheet->getActiveSheet();
+    }
+
+    /**
+     * Gets position of character in alphabet.
+     *
+     * @param String $char
+     *
+     * @return int
+     */
+    protected function alphabetNum(string $char)
+    {
+        return ord(strtoupper($char)) - ord('A') + 1;
     }
 }
