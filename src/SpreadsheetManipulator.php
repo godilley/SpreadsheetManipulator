@@ -3,15 +3,23 @@
 namespace App;
 
 use App\Excel;
-use App\ContentSite\Geizhals;
 
 class SpreadsheetManipulator
 {
+    /**
+     * @var ConfigManager
+     */
     private $configManager;
+
+    /**
+     * @var \App\Excel
+     */
+    private $excel;
 
     /**
      * SpreadsheetManipulator constructor.
      * @param array $args CLI parameters
+     * @throws \Exception
      */
     public function __construct(array $args)
     {
@@ -30,6 +38,7 @@ class SpreadsheetManipulator
      * @param array $args CLI parameters
      *
      * @return bool
+     * @throws \Exception
      */
     public function validateArgs(array $args): bool
     {
@@ -44,8 +53,26 @@ class SpreadsheetManipulator
         return true;
     }
 
+    /**
+     * // TODO: Load data from spreadsheet and search based on that
+     *
+     * @throws \Exception
+     */
     public function searchSites()
     {
-        echo '// TODO';
+        $sitesToSearch = $this->configManager->fetchConfig(ConfigManager::CONF_SITES_TO_SEARCH);
+
+        foreach ($sitesToSearch as $key => $siteToSearch) {
+            $class = "App\ContentSite\\$siteToSearch";
+
+            if (!class_exists($class)) {
+                throw new \Exception('Invalid site to search: ' . $siteToSearch);
+            }
+
+            $sitesToSearch[$key] = new $class();
+        }
+
+        dump($sitesToSearch);
+        exit;
     }
 }
