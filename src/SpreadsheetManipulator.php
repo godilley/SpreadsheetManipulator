@@ -1,6 +1,8 @@
 <?php
 
-namespace app;
+namespace App;
+
+use App\Excel;
 
 class SpreadsheetManipulator
 {
@@ -10,6 +12,6 @@ class SpreadsheetManipulator
      */
     public function __construct(array $args)
     {
-        echo 'Hello World';
+        $this->excel = new Excel();
     }
 }
