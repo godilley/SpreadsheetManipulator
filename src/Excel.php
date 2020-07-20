@@ -30,7 +30,7 @@ class Excel
     /**
      * Returns specified cell.
      *
-     * $param String $cell
+     * @param String $cell
      */
     protected function getCell(string $cell): Cell 
     {
