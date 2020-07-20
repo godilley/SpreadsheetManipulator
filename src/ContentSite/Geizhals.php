@@ -11,7 +11,8 @@ class Geizhals extends ContentSite
             ->configure(
                 'geizhals.at',
                 'https://geizhals.at',
-                '/?fs=%s&hloc=at'
+                '/?fs=%s&hloc=at',
+                'h1[itemprop="name"]'
             );
     }
 
