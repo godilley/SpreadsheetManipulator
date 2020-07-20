@@ -4,15 +4,15 @@ namespace App;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 
 class RequestManager
 {
-
     /**
      * The headers for the request
      * @return array headers
      */
-    private function getHeaders()
+    protected function getHeaders()
     {
         return [
             'Accept'         => 'application/html',
@@ -24,10 +24,10 @@ class RequestManager
     /**
      * Make a request for content
      * @param string $url url to request
-     * @return mixed Request object
+     * @return ResponseInterface Request object
      * @throws GuzzleException
      */
-    private function doGetRequest($url)
+    protected function doGetRequest($url)
     {
         $client = new Client([
             'timeout' => 20,
@@ -43,5 +43,4 @@ class RequestManager
             ]
         );
     }
-
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Excel;
+use App\ContentSite\ContentSiteInterface;
 
 class SpreadsheetManipulator
 {
@@ -15,6 +16,11 @@ class SpreadsheetManipulator
      * @var \App\Excel
      */
     private $excel;
+
+    /**
+     * @var ContentSiteRequestManager
+     */
+    private $siteReqManager;
 
     /**
      * @var array
@@ -33,13 +39,14 @@ class SpreadsheetManipulator
         $this->configManager = new ConfigManager();
         $this->configManager->validateConfig(true);
 
+        $this->siteReqManager = new ContentSiteRequestManager();
         $this->excel = new Excel($args[1], $args[2]);
         $this->data = [
             'input' => $this->excel->getColumn($_ENV['sitesToSearch']),
             'output' => [],
         ];
 
-        $this->searchSites();
+        $this->searchSites('3165140962261'); // TODO: Move to actual search functionality
     }
 
     /**
@@ -65,9 +72,10 @@ class SpreadsheetManipulator
     /**
      * // TODO: Load data from spreadsheet and search based on that
      *
+     * @param string $searchStr
      * @throws \Exception
      */
-    public function searchSites()
+    public function searchSites(string $searchStr)
     {
         $sitesToSearch = $this->configManager->fetchConfig(ConfigManager::CONF_SITES_TO_SEARCH);
 
@@ -78,7 +86,15 @@ class SpreadsheetManipulator
                 throw new \Exception('Invalid site to search: ' . $siteToSearch);
             }
 
-            $sitesToSearch[$key] = new $class();
+            $site = new $class();
+
+            if (!($site instanceof ContentSiteInterface)) {
+                throw new \Exception('Invalid instanceof loading site to search: ' . $siteToSearch);
+            }
+
+            $resp = $this->siteReqManager->searchSite($site, $searchStr);
+            dump($resp);
+            exit;
         }
 
         dump($sitesToSearch);
