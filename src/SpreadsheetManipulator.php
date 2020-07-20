@@ -14,7 +14,7 @@ class SpreadsheetManipulator
     {
         $this->validateArgs($args);
 
-        $this->excel = new Excel($args[0], $args[1]);
+        $this->excel = new Excel($args[1], $args[2]);
     }
 
     /**
