@@ -17,7 +17,14 @@ class SpreadsheetManipulator
         $this->excel = new Excel($args[0], $args[1]);
     }
 
-    public function validateArgs(array $args)
+    /**
+     * Validates incoming command parameters.
+     *
+     * @param array $args CLI parameters
+     *
+     * @return bool
+     */
+    public function validateArgs(array $args): bool
     {
         if (count($args) < 2) {
             throw new \Exception('Missing path to input file.');
