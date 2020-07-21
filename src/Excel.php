@@ -67,7 +67,9 @@ class Excel
      */
     public function setColumn(string $position, array $column)
     {
-        $this->sheet->fromArray([$column], null, "{$position}2");
+        $this->sheet->fromArray(array_map(function($row) {
+            return [$row];
+        }, $column), null, "{$position}2");
     }
 
     /**

@@ -3,3 +3,4 @@ vendor/
 .env
 resources/*
 !resources/.gitkeep
+*\.xlsx

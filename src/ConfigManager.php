@@ -15,7 +15,7 @@ class ConfigManager
 
     public const CONF_SITES_TO_SEARCH = 'sitesToSearch';
     public const CONF_INPUT_COLUMN = 'inputColumn';
-    public const CONF_OUTPUT_COLUMN = 'inputColumn';
+    public const CONF_OUTPUT_COLUMN = 'outputColumn';
     public const CONF_CATEGORIES_TO_CHECK = 'categoriesToCheck';
 
     /**
