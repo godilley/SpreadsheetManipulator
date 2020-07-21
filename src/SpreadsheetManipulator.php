@@ -45,8 +45,19 @@ class SpreadsheetManipulator
         $this->excel = new Excel($args[1], $args[2]);
 
         $this->prepareData();
+        $this->search();
+    }
 
-        $this->searchSites('3165140962261'); // TODO: Move to actual search functionality
+    /**
+     * Executes search on each input entry within $this->data;
+     */
+    public function search()
+    {
+        foreach ($this->data as $datum) {
+            foreach ($datum->getInput() as $row) {
+                $this->searchSites($row);
+            }
+        }
     }
 
     /**
@@ -121,11 +132,11 @@ class SpreadsheetManipulator
             }
 
             $resp = $this->siteReqManager->searchSite($site, $searchStr);
-            dump($resp);
-            exit;
+            // dump($resp);
+            // exit;
         }
 
-        dump($sitesToSearch);
-        exit;
+        // dump($sitesToSearch);
+        // exit;
     }
 }

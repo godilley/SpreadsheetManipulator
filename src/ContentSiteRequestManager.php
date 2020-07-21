@@ -27,7 +27,7 @@ class ContentSiteRequestManager extends RequestManager
 
             dump($crawler->filter($contentSite->getFilterPath())->text());
             //dump($body);
-            exit;
+            // exit;
         } catch (GuzzleException $e) {
             return null;
         }

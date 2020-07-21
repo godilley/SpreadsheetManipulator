@@ -63,4 +63,34 @@ class SpreadsheetData {
     {
         $this->output = $output;
     }
+
+    /**
+     * Get the title.
+     *
+     * @return string
+     */
+    public function getTitle(string $title = '')
+    {
+        return $this->title;
+    }
+
+    /**
+     * Get the input.
+     *
+     * @return array
+     */
+    public function getInput(array $input = [])
+    {
+        return $this->input;
+    }
+
+    /**
+     * Get the output.
+     *
+     * @return array
+     */
+    public function getOutput(array $output = [])
+    {
+        return $this->output;
+    }
 }
