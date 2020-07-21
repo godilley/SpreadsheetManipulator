@@ -137,9 +137,7 @@ class SpreadsheetManipulator
                 throw new \Exception('Invalid instanceof loading site to search: ' . $siteToSearch);
             }
 
-            $availableCategories = array_map('mb_strtolower', $this->getAvailableCategories());
-
-            $syncResultValidator = function (string $searchResult) use ($searchStr, &$availableCategories) {
+            $syncResultValidator = function (string $searchResult) use ($searchStr) {
                 $searchResult = mb_strtolower($searchResult);
                 $category = $this->getCategoryFromString($searchResult);
 
