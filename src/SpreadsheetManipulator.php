@@ -4,7 +4,7 @@ namespace App;
 
 use App\Excel;
 use App\ContentSite\ContentSiteInterface;
-use App\SpreadsheetData;
+use App\Model\SpreadsheetData;
 
 class SpreadsheetManipulator
 {
@@ -50,6 +50,7 @@ class SpreadsheetManipulator
 
     /**
      * Executes search on each input entry within $this->data;
+     * @throws \Exception
      */
     public function search()
     {
