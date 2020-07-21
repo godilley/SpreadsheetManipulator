@@ -2,6 +2,8 @@
 
 namespace app\ContentSite;
 
+use App\Model\ContentFilterPath;
+
 interface ContentSiteInterface
 {
     /**
@@ -10,13 +12,15 @@ interface ContentSiteInterface
      * @param string $name
      * @param string $baseUrl
      * @param string $searchUri
-     * @param string $filterPath
+     * @param array $contentFilterPaths
+     *
+     * @throws \Exception
      */
     function configure(
         string $name,
         string $baseUrl,
         string $searchUri,
-        string $filterPath
+        array $contentFilterPaths
     );
 
     /**
@@ -35,12 +39,6 @@ interface ContentSiteInterface
     function getSearchUri(): string;
 
     /**
-     * @param $searchStr
-     * @return mixed
-     */
-    function search($searchStr);
-
-    /**
      * Returns the full url
      *
      * @param $searchString
@@ -48,5 +46,8 @@ interface ContentSiteInterface
      */
     function getRequestUrl($searchString): string;
 
-    function getFilterPath(): string;
+    /**
+     * @return array|ContentFilterPath[]
+     */
+    function getContentFilterPaths(): array;
 }

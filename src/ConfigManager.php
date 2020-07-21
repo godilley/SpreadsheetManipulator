@@ -10,10 +10,12 @@ class ConfigManager
     public const REQUIRED_PARAMS = [
         self::CONF_SITES_TO_SEARCH,
         self::CONF_INPUT_COLUMN,
+        self::CONF_CATEGORIES_TO_CHECK,
     ];
 
     public const CONF_SITES_TO_SEARCH = 'sitesToSearch';
     public const CONF_INPUT_COLUMN = 'inputColumn';
+    public const CONF_CATEGORIES_TO_CHECK = 'categoriesToCheck';
 
     /**
      * @var Dotenv
@@ -77,6 +79,9 @@ class ConfigManager
         switch ($config) {
             case self::CONF_SITES_TO_SEARCH:
                 return array_filter(explode(',', str_replace(', ', ',', $value)));
+                break;
+            case self::CONF_CATEGORIES_TO_CHECK:
+                return array_filter(explode('|', str_replace('| ', ',', $value)));
                 break;
         }
 

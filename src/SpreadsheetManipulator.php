@@ -113,6 +113,7 @@ class SpreadsheetManipulator
      * // TODO: Load data from spreadsheet and search based on that
      *
      * @param string $searchStr
+     * @return null|string
      * @throws \Exception
      */
     public function searchSites(string $searchStr)
@@ -132,12 +133,57 @@ class SpreadsheetManipulator
                 throw new \Exception('Invalid instanceof loading site to search: ' . $siteToSearch);
             }
 
-            $resp = $this->siteReqManager->searchSite($site, $searchStr);
-            // dump($resp);
-            // exit;
+            $availableCategories = array_map('mb_strtolower', $this->getAvailableCategories());
+
+            $syncResultValidator = function (string $searchResult) use ($searchStr, &$availableCategories) {
+                $searchResult = mb_strtolower($searchResult);
+                $category = $this->getCategoryFromString($searchResult);
+
+                return $category !== null;
+            };
+
+            $contentStr = $this->siteReqManager->searchSite($site, $searchStr, $syncResultValidator);
+            $category = $this->getCategoryFromString($contentStr);
+
+            if ($searchStr === null || $category === null) {
+                continue;
+            }
+
+            // dump("Searched: '$searchStr' | Content Found: '$contentStr' | Parsed Category: '$category'");
+            dump("Searched: '$searchStr' | Parsed Category: '$category'");
+
+            return $category;
         }
 
-        // dump($sitesToSearch);
-        // exit;
+        return null;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    public function getAvailableCategories()
+    {
+        return $this->configManager->fetchConfig(ConfigManager::CONF_CATEGORIES_TO_CHECK);
+    }
+
+    /**
+     * @param $string
+     * @return mixed|string
+     */
+    public function getCategoryFromString($string)
+    {
+        $string = mb_strtolower($string);
+        $longestMatch = null;
+
+        foreach ($this->getAvailableCategories() as $category) {
+            $categoryLower = mb_strtolower(trim($category));
+            $categoryLength = strlen($categoryLower);
+
+            if (strpos($string, $categoryLower) !== false && $categoryLength > strlen(trim($longestMatch))) {
+                $longestMatch = $category;
+            }
+        }
+
+        return $longestMatch;
     }
 }

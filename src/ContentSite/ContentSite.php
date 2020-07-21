@@ -2,6 +2,8 @@
 
 namespace App\ContentSite;
 
+use App\Model\ContentFilterPath;
+
 abstract class ContentSite implements ContentSiteInterface
 {
     /**
@@ -20,9 +22,9 @@ abstract class ContentSite implements ContentSiteInterface
     protected $searchUri;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $filterPath;
+    protected $contentFilterPaths = [];
 
     /**
      * @inheritDoc
@@ -31,12 +33,22 @@ abstract class ContentSite implements ContentSiteInterface
         string $name,
         string $baseUrl,
         string $searchUri,
-        string $filterPath
+        array $contentFilterPaths
     ) {
         $this->name = $name;
         $this->baseUrl = $baseUrl;
         $this->searchUri = $searchUri;
-        $this->filterPath = $filterPath;
+        $this->contentFilterPaths = $contentFilterPaths;
+
+        if (!is_array($this->contentFilterPaths)) {
+            throw new \Exception('Invalid content filter paths type passed. Should be an array containing ContentFilterPath() objects');
+        }
+
+        foreach ($this->contentFilterPaths as $contentFilterPath) {
+            if (!($contentFilterPath instanceof ContentFilterPath)) {
+                throw new \Exception('Invalid content filter paths type passed. Should be an array containing ContentFilterPath() objects');
+            }
+        }
     }
 
     /**
@@ -66,20 +78,15 @@ abstract class ContentSite implements ContentSiteInterface
     /**
      * @inheritDoc
      */
-    abstract public function search($searchStr);
-
-    /**
-     * @inheritDoc
-     */
     public function getRequestUrl($searchString): string {
         return sprintf($this->getBaseUrl() . $this->getSearchUri(), $searchString);
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getFilterPath(): string
+    public function getContentFilterPaths(): array
     {
-        return $this->filterPath;
+        return $this->contentFilterPaths;
     }
 }
