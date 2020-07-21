@@ -35,7 +35,7 @@ class SpreadsheetData {
     }
 
     /**
-     * Set the title of the working sreadsheet data.
+     * Set the title of the working spreadsheet data.
      *
      * @param string $title
      */
@@ -45,7 +45,7 @@ class SpreadsheetData {
     }
 
     /**
-     * Set the input of the working sreadsheet data.
+     * Set the input of the working spreadsheet data.
      *
      * @param array $input
      */
@@ -55,7 +55,7 @@ class SpreadsheetData {
     }
 
     /**
-     * Set the output of the working sreadsheet data.
+     * Set the output of the working spreadsheet data.
      *
      * @param array $output
      */
