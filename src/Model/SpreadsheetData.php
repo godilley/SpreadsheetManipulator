@@ -4,11 +4,6 @@ namespace App\Model;
 
 class SpreadsheetData {
     /**
-     * @var String
-     */
-    protected $title;
-
-    /**
      * @var array
      */
     protected $input;
@@ -23,25 +18,13 @@ class SpreadsheetData {
      * Handles the working data between reading from and writing to
      * the spreadsheet itself.
      *
-     * @param String $title
      * @param array $input
      * @param array $output
      */
-    public function __construct(string $title = '', array $input = [], array $output = [])
+    public function __construct(array $input = [], array $output = [])
     {
-        $this->title = $title;
         $this->input = $input;
         $this->output = $output;
-    }
-
-    /**
-     * Set the title of the working spreadsheet data.
-     *
-     * @param string $title
-     */
-    public function setTitle(string $title = '')
-    {
-        $this->title = $title;
     }
 
     /**
@@ -62,16 +45,6 @@ class SpreadsheetData {
     public function setOutput(array $output = [])
     {
         $this->output = $output;
-    }
-
-    /**
-     * Get the title.
-     *
-     * @return string
-     */
-    public function getTitle(string $title = '')
-    {
-        return $this->title;
     }
 
     /**

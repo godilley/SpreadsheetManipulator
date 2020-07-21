@@ -68,7 +68,7 @@ class SpreadsheetManipulator
     public function prepareData()
     {
         foreach ($this->excelData() as $input) {
-            $this->data[] = new SpreadsheetData($input['title'], $input['input']);
+            $this->data[] = new SpreadsheetData($input['input']);
         }
     }
 
