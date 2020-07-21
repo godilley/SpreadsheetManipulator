@@ -45,7 +45,7 @@ class SpreadsheetManipulator
         $this->excel = new Excel($args[1], $args[2]);
 
         $this->prepareData();
-        $this->excel->setColumn($this->search());
+        $this->excel->setColumn($this->configManager->fetchConfig(ConfigManager::CONF_OUTPUT_COLUMN), $this->search());
         $this->excel->write();
     }
 
@@ -81,7 +81,7 @@ class SpreadsheetManipulator
      */
     public function excelData()
     {
-        $columnData = $this->excel->getColumn($this->configManager->fetchConfig('inputColumn'));
+        $columnData = $this->excel->getColumn($this->configManager->fetchConfig(ConfigManager::CONF_INPUT_COLUMN));
         $shifted = array_shift($columnData);
 
         return [
