@@ -4,6 +4,7 @@ namespace App;
 
 use App\Excel;
 use App\ContentSite\ContentSiteInterface;
+use App\SpreadsheetData;
 
 class SpreadsheetManipulator
 {
@@ -23,12 +24,13 @@ class SpreadsheetManipulator
     private $siteReqManager;
 
     /**
-     * @var array
+     * @var SpreadsheetData
      */
     private $data;
 
     /**
      * SpreadsheetManipulator constructor.
+     *
      * @param array $args CLI parameters
      * @throws \Exception
      */
@@ -41,26 +43,42 @@ class SpreadsheetManipulator
 
         $this->siteReqManager = new ContentSiteRequestManager();
         $this->excel = new Excel($args[1], $args[2]);
-        dump($this->excelData());
+
+        $this->prepareData();
 
         $this->searchSites('3165140962261'); // TODO: Move to actual search functionality
     }
-    
 
+    /**
+     * Creates SpreadsheetData objects from the input data and stores
+     * in $this->data
+     */
+    public function prepareData()
+    {
+        foreach ($this->excelData() as $input) {
+            $this->data[] = new SpreadsheetData($input['title'], $input['input']);
+        }
+    }
+
+    /**
+     * Returns excel data to be read from the passed excel file.
+     */
     public function excelData()
     {
         $columnData = $this->excel->getColumn($this->configManager->fetchConfig('inputColumn'));
         $shifted = array_shift($columnData);
 
         return [
-            'title' => [$shifted],
-            'input' => [$columnData],
-            'output' => [[]],
+            [
+                'title' => $shifted,
+                'input' => $columnData,
+            ]
         ];
     }
 
     /**
      * Validates incoming command parameters.
+     *
      * @param array $args CLI parameters
      *
      * @return bool
