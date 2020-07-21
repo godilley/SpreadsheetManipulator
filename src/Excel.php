@@ -2,22 +2,32 @@
 
 namespace App;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Cell\Cell;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadinputSheet\SpreadinputSheet;
+use PhpOffice\PhpSpreadinputSheet\Cell\Cell;
+use PhpOffice\PhpSpreadinputSheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadinputSheet\IOFactory;
 
 class Excel
 {
     /**
-     * @var Spreadsheet $spreadsheet
+     * @var SpreadinputSheet
      */
-    protected $spreadsheet;
+    protected $spreadinputSheet;
 
     /**
-     * @var $sheet
+     * @var SpreadinputSheet
      */
-    protected $sheet;
+    protected $inputSheet;
+
+    /**
+     * @var String
+     */
+    protected $inputPath;
+
+    /**
+     * @var String
+     */
+    protected $inputPath;
 
     /**
      * Excel constructor.
@@ -27,7 +37,9 @@ class Excel
      */
     public function __construct(string $input, string $output)
     {
-        $this->open($input);
+        $this->inputPath = $input;
+        $this->outputPath = $output;
+        $this->open();
     }
 
    /**
@@ -40,11 +52,22 @@ class Excel
     public function getColumn(string $column): array
     {
         $columnPos = $this->alphabetNum($column) - 1;
-        $data = $this->sheet->toArray();
+        $data = $this->inputSheet->toArray();
 
         return array_map(function ($datum) use ($columnPos) {
             return $datum[$columnPos];
         }, $data);
+    }
+
+    /**
+     * Write column to excel file.
+     *
+     * @param array $column
+     *
+     */
+    public function setColumn(string $position, array $column): array
+    {
+        $this->outputSheet->fromArray($column, null, "{$column}2");
     }
 
     /**
@@ -56,7 +79,7 @@ class Excel
      */
     public function getCell(string $cell): Cell
     {
-        return $this->sheet->getCell($cell);
+        return $this->inputSheet->getCell($cell);
     }
 
     /**
@@ -64,10 +87,20 @@ class Excel
      *
      * @param String $path
      */
-    protected function open($path)
+    protected function open()
     {
-        $this->spreadsheet = IOFactory::load($path);
-        $this->sheet = $this->spreadsheet->getActiveSheet();
+        $this->spreadinputSheet = IOFactory::load($this->inputPath);
+        $this->inputSheet = $this->spreadinputSheet->getActiveSheet();
+        $this->outputSheet = $this->inputSheet->copy();
+    }
+
+    /**
+     * Writes $this->outputSheet to file.
+     */
+    protected function write()
+    {
+        $writer = IOFactory::createWriter($this->outputSheet, "Xlsx");
+        $writer->save($this->outputPath);
     }
 
     /**
