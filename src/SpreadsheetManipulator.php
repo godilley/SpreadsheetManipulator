@@ -45,7 +45,8 @@ class SpreadsheetManipulator
         $this->excel = new Excel($args[1], $args[2]);
 
         $this->prepareData();
-        $this->search();
+        $this->excel->setColumn($this->search());
+        $this->excel->write();
     }
 
     /**
@@ -54,11 +55,14 @@ class SpreadsheetManipulator
      */
     public function search()
     {
+        $categories = [];
         foreach ($this->data as $datum) {
             foreach ($datum->getInput() as $row) {
-                $this->searchSites($row);
+                // TODO: DOUBLE CHECK THE NULL THING
+                $categories[] = $this->searchSites($row);
             }
         }
+        return $categories;
     }
 
     /**

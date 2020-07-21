@@ -25,11 +25,6 @@ class Excel
     protected $inputPath;
 
     /**
-     * @var String
-     */
-    protected $inputPath;
-
-    /**
      * Excel constructor.
      *
      * @param String $input
