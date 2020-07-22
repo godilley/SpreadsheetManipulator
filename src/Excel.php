@@ -3,8 +3,9 @@
 namespace App;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -97,10 +98,21 @@ class Excel
 
     /**
      * Writes $this->outputSheet to file.
+     * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function write()
     {
         // $writer = IOFactory::createWriter($this->spreadsheet, "Xlsx");
+        $this->spreadsheet->getDefaultStyle()->applyFromArray([
+            'font' => [
+                'color' => [
+                    'rgb' => '000000'
+                ],
+                'size' => 13,
+                'name' => 'Arial'
+            ]
+        ]);
         $writer = new Xlsx($this->spreadsheet);
         $writer->save($this->outputPath);
     }
