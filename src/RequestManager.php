@@ -31,7 +31,8 @@ class RequestManager
     {
         $client = new Client([
             'timeout' => 20,
-            'connect_timeout' => 10
+            'connect_timeout' => 10,
+            'verify' => false // Compatibility for windows - Windows was throwing weird CA Cert errors and due to not being important about verifying source lets do this instead...
         ]);
 
         return $client->request(
